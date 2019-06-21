@@ -15,12 +15,14 @@ client.on('ready',  () => {
  
  
  
+ 
 client.on('message', async message => {
  
    if (message.content.startsWith("$new")) {  
         const reason = message.content.split(" ").slice(1).join(" ");  
-        if (!message.guild.roles.exists("name", "Support Team")) return message.channel.send(`áÇÒã ÊÓæí ÑÊÈÉ ÇÓãåÇ \`Support Team\` æÊäØí ÇáÈæÊ ÇÏãäíÊÑ ÍÊÇ íÞÏÑ íÓæí ÇáÑæãÇÊ æíÚÏá ÈÑãÔäÇÊ`);
-        if (message.guild.channels.exists("name", "ticket-{message.author.id}" + message.author.id)) return message.channel.send(`You already have a ticket open.`);    /// ALPHA CODES
+        if (!message.guild.roles.exists("name", "Support Team")) return message.channel.send(`**لا يملك هذا السيرفر رتبة __Support Team__
+ ، يجب إنشاؤها لتمكن البوت من إنشاء التكت ،  ورؤية الإدارة التكتاآت**`);
+        if (message.guild.channels.exists("name", "ticket-{message.author.id}" + message.author.id)) return message.channel.send(`أنت تمتلك تكت مسبقاً .`);    /// ALPHA CODES
         message.guild.createChannel(`ticket-${message.author.username}`, "text").then(c => {
             let role = message.guild.roles.find("name", "Support Team");
             let role2 = message.guild.roles.find("name", "@everyone");
@@ -36,10 +38,10 @@ client.on('message', async message => {
                 SEND_MESSAGES: true,
                 READ_MESSAGES: true
             });
-            message.channel.send(`:white_check_mark: Êã ÇäÔÇÁ ÊÐßÑÊß, #${c.name}.`);
+            message.channel.send(`:white_check_mark: **تم إنشاء تذكرتك ، #${c.name}.**`);
             const embed = new Discord.RichEmbed()
                 .setColor(d1631e)
-                .addField(`Hey ${message.author.username}!`, `:white_check_mark:  Êã ÇäÔÇÁ ÊÐßÑÊß, #ticket`)
+                .addField(`مرحباّ ${message.author.username}!`, `يرجى محاولة شرح سبب فتح هذه التذكرة بأكبر قدر ممكن من التفاصيل. سيكون فريق الدعم لدينا قريبا للمساعدة`)
                 .setTimestamp();
             c.send({
                 embed: embed
@@ -51,9 +53,9 @@ client.on('message', async message => {
   if (message.content.startsWith("$close")) {
         if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the close command outside of a ticket channel.`);
  
-       message.channel.send(`åá ÇäÊ ãÊÃßÏ ãä ÇÞÝÇáß ááÊÐßÑÉ ÇÐÇ ãÊÃßÏ ÇßÊÈconfirm`)
+       message.channel.send(`هل أنت متأكد؟ بعد التأكيد ، لا يمكنك عكس هذا الإجراء!\n للتأكيد ، اكتب\`,close\`. سيؤدي ذلك إلى مهلة زمنية في غضون 10 ثوانٍ وإلغائها`)
            .then((m) => {
-               message.channel.awaitMessages(response => response.content === 'confirm', {
+               message.channel.awaitMessages(response => response.content === '$close', {
                        max: 1,
                        time: 10000,
                        errors: ['time'],
@@ -62,7 +64,7 @@ client.on('message', async message => {
                        message.channel.delete();
                    })  
                    .catch(() => {
-                       m.edit('áã íÊã ÊÞÝíá ÇáÊßÊ').then(m2 => {
+                       m.edit('وقت الإقفآل قد إنتهى ، التكت لم تقفل .').then(m2 => {
                            m2.delete();
                        }, 3000);
                    });
@@ -71,5 +73,7 @@ client.on('message', async message => {
  
 });
  
+ 
+//
  
 client.login(process.env.BOT_TOKEN);
