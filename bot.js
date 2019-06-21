@@ -1,5 +1,20 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+ 
+ 
+ 
+client.on('ready',  () => {
+    console.log('تم تشغيل ');
+    console.log('By : .7ossam');
+     console.log('Lightning Ticket ');
+    console.log(`Logged in as * [ " ${client.user.username} " ] servers! [ " ${client.guilds.size} " ]`);
+    console.log(`Logged in as * [ " ${client.user.username} " ] Users! [ " ${client.users.size} " ]`);
+    console.log(`Logged in as * [ " ${client.user.username} " ] channels! [ " ${client.channels.size} " ]`);
+  });
+ 
+ 
+ 
+ 
 client.on('message', async message => {
  
    if (message.content.startsWith("$new")) {  
@@ -57,4 +72,4 @@ client.on('message', async message => {
 });
  
  
-client.login("token");
+client.login(process.env.BOT_TOKEN);
